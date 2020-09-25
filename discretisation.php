@@ -30,27 +30,27 @@ function quantile($data)
 {
     return [
         'legende' => [
-            percentile($data, 100),
-            percentile($data, 75),
-            percentile($data, 50),
-            percentile($data, 25),
-            percentile($data, 0),
+            round(min($data),2),
+            round(percentile($data, 25),2),
+            round(percentile($data, 50),2),
+            round(percentile($data, 75),2),
+            round(max($data),2)
         ],
-        'colors' => ['#800026', '#E31A1C', '#FD8D3C', '#FED976']
+        'colors' => ['#FED976', '#FD8D3C', '#E31A1C','#800026']
     ];
 }
 
 function amplitudesEgales($data)
 {
-    $min = min($data);
-    $max = max($data);
-    $Q2 = (($max - $min) / 2) + $min;
-    $Q1 = (($Q2 - $min) / 2) + $min;
-    $Q3 = (($max - $Q2) / 2) + $Q2;
+    $min = round(min($data),2);
+    $max = round(max($data),2);
+    $Q2 = round((($max - $min) / 2) + $min,2);
+    $Q1 = round((($Q2 - $min) / 2) + $min,2);
+    $Q3 = round((($max - $Q2) / 2) + $Q2,2);
 
     return [
-        'legende' => [$max, $Q3, $Q2, $Q1, $min],
-        'colors' => ['#800026', '#E31A1C', '#FD8D3C', '#FED976']
+        'legende' => [$min, $Q1, $Q2, $Q3, $max],
+        'colors' => ['#FED976', '#FD8D3C', '#E31A1C','#800026']
     ];
 }
 

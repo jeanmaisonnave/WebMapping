@@ -10,7 +10,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png
   }
 ).addTo(map);
 
-
+L.control.scale().addTo(map);
 
 $(".indicateur").click(function(){
 let type = $(this).data('type');
@@ -80,7 +80,7 @@ function drawAplat(geojson, legende, colors) {
 
   info.update = function (props) {
     this._div.innerHTML = '<h4>Densité de la population</h4>' +  (props ?
-      '<b>' + props.nom_dpt + '</b><br />' + props.data + ' hab / km²<sup>2</sup>'
+      '<b>' + props.nom_dpt + '</b><br />' + props.data + ' hab/km<sup>2</sup>'
       : '<p>Survolez un département</p>');
   };
 
@@ -143,7 +143,7 @@ function popupHTML(layer) {
 function getColor(d, legende, colors) {
 	let color = null;
 	$.each(legende, function (index, value) {
-		if (d > parseFloat(value)) {
+		if (d <= parseFloat(value)) {
 			color = colors[index - 1];
 			return false;
 		}
