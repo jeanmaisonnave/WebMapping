@@ -46,6 +46,8 @@ switch($_GET['id']){
     break;
     case 2:
         $geojson = geojsonSql("ROUND(SUM(p16_pop)/SUM(superf),2)", "habitants/km²");
+    case 3:
+        $geojson = geojsonSql("SUM(p16_rsecocc)","résidences secondaires");
     break;
 }
 
