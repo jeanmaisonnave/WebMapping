@@ -36,8 +36,8 @@
             </select>
             <h4 class="m-2">Aplats</h4>
             <ul class="list-group p-3">
-              <a class="list-group-item indicateur" data-id="2" data-titre = "Densité de la population" data-type="aplat" href="#">Densité de la population (2016)</a>
-              <a class="list-group-item indicateur" data-id="3" data-titre = "Nombre de résidences secondaires" data-type="aplat" href="#">Résidences secondaires (2016)</a>
+              <a class="list-group-item indicateur" data-id="2" data-titre = "Densité de la population" data-type="aplat" href="#">Densité de la population</a>
+              <a class="list-group-item indicateur" data-id="3" data-titre = "Nombre de résidences secondaires" data-type="aplat" href="#">Résidences secondaires</a>
             </ul>
             <label for="couleurPoly">Couleur</label>
             <select class="selectCouleur" name="couleurPoly" id="couleurPoly" class="col-4">
@@ -56,8 +56,8 @@
             <h4 class="m-2">Cercles proportionnels</h4>
 
             <ul class="list-group p-3">
-                <a class="list-group-item indicateur" data-id="1" data-titre="Population municipale" data-type="cercle" data-radius="50000" href="#">Population municipale (2016)</a>
-                <a class="list-group-item indicateur" data-id="4" data-titre="Logements vacants" data-type="cercle" data-radius="50000" href="#">Logements vacants (2016)</a>
+                <a class="list-group-item indicateur" data-id="1" data-titre="Population municipale" data-type="cercle" data-radius="50000" href="#">Population municipale</a>
+                <a class="list-group-item indicateur" data-id="4" data-titre="Logements vacants" data-type="cercle" data-radius="50000" href="#">Logements vacants</a>
             </ul>
             <label for="couleurCercles">Couleur</label>
             <select class="selectCouleur" name="couleurCercles" id="couleurCercles" class="col-4">
