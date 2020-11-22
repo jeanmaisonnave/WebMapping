@@ -15,22 +15,15 @@
   <div class="container-fluid h-100">
    <div class="row h-100">
      <div id="menu" class="col-3 p-0">
-       <div class="row align-items-center h-25 p-1 bg-dark text-white">
+       <div class="row align-items-center h-25 p-1 bg-light text-dark">
          <div class="container">
            <h1 class="text-center font-weight-bold">Jean Maisonnave</h1>
-           <p class="text-center font-italic">Master 2 Siglis - Web Mapping<br>Contact : <a href="mailto:jeanmaisonnave@wanadoo.fr" class="font-italic text-white"><u>jeanmaisonnave@wanadoo.fr</u></a></p>
          </div>
         </div>
-        <div class="row align-items-center h-75 selection">
+        <div class="row align-items-center h-75 bg-dark text-light selection">
           <div class="container">
-            <h3 class="text-center text-primary m-3">Indicateurs</h3>
-
-            <h4 class="text-info m-2">Cercles proportionnels</h4>
-            <ul class="list-group p-3">
-                <a class="list-group-item indicateur" data-id="1" data-type="cercle" data-radius="50000" href="#">Population municipale (2016)</a>
-            </ul>
-
-            <h4 class="text-info m-2">Aplats</h4>
+            <h3 class="text-center m-3">Indicateurs</h3>
+            <h4 class="m-2">Aplats</h4>
             <ul class="list-group p-3">
               <a class="list-group-item indicateur" data-id="2" data-type="aplat" href="#">Densité de la population (2016)</a>
               <a class="list-group-item indicateur" data-id="3" data-type="aplat" href="#">Résidences secondaires (2016)</a>
@@ -46,6 +39,12 @@
                 <option value="p16">2016</option>
               </select>
             </ul>
+
+            <h4 class="m-2">Cercles proportionnels</h4>
+            <ul class="list-group p-3">
+                <a class="list-group-item indicateur" data-id="1" data-type="cercle" data-radius="50000" href="#">Population municipale (2016)</a>
+            </ul>
+
             <div class="form-group">
                 <label>Discrétisation</label>
                 <select class="form-control" name="discretisation">
