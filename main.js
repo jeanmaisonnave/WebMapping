@@ -12,16 +12,20 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png
 
 L.control.scale().addTo(map);
 
-$(".indicateur").click(function(){
+$(".indicateur").on('click',dessinerIndicateur);
+
+function dessinerIndicateur(){
 let type = $(this).data('type');
 let id = $(this).data('id');
 let titre = $(this).data('titre');
 let discretisation = $("select[name='discretisation']").val();
+let annee = $("select[name='selectAnnee']").val();
 
-	$.ajax({
+ $.ajax({
 		url: 'layer.php',
 		data : {
-			id : id
+			id : id,
+			annee : annee
 		},
 		dataType: 'json',
 		success: function (geojson) {
@@ -44,22 +48,23 @@ let discretisation = $("select[name='discretisation']").val();
 					},
 					dataType: 'json',
 					success: function (data) {
-						console.log(data);
-          drawAplat(geojson, data.legende, data.colors, titre);
+          drawAplat(geojson, data.legende, titre);
         }
 				})
 			} else {
 				drawCercle(geojson, id, titre);
 			}
 		}
+
 	})
-});
+}
+
 
 //dessin Applat
-function drawAplat(geojson, legende, colors, titre) {
+function drawAplat(geojson, legende, titre) {
 	layer = L.geoJSON(geojson, {
 		style: function (feature) {
-			let fillColor = getColor(feature.properties.data, legende, colors);
+			let fillColor = getColor(feature.properties.data, legende);
 			return {
 				fillColor: fillColor,
 				weight: 2,
@@ -89,8 +94,9 @@ function drawAplat(geojson, legende, colors, titre) {
   info.addTo(map);
 
   function highlightFeature(e) {
+		  console.log("poly highlight");
       var layerHover = e.target;
-
+			console.log(layerHover);
       layerHover.setStyle({
         weight: 5,
         color: '#666',
@@ -117,12 +123,14 @@ function drawAplat(geojson, legende, colors, titre) {
         mouseout: resetHighlight
       });
     }
-    drawLegend(map, legende, colors);
+    drawLegend(map, legende);
 }
 
 //dessin cercle
 function drawCercle(geojson, id, titre){
 	let coef = null;
+	let col = null;
+	let couleur = $("#couleurCercles").val();
 	switch (id){
 		case 1:
 			coef = 0.02;
@@ -135,11 +143,17 @@ function drawCercle(geojson, id, titre){
       pointToLayer: (feature, latlng) => {
         console.log(feature);
         if (feature) {
-          return new L.Circle(latlng, {radius: feature.properties.data*coef});
+          return new L.Circle(latlng, {
+						radius: feature.properties.data*coef,
+						color: couleur
+					});
         }
-      }
+      },
+			onEachFeature : onEachFeature
     })
       .bindPopup(popupHTML).addTo(map);
+
+		info = L.control();
 
 		info.onAdd = function (map) {
 	    this._div = L.DomUtil.create('div', 'info');
@@ -156,8 +170,9 @@ function drawCercle(geojson, id, titre){
 	  info.addTo(map);
 
 	  function highlightFeature(e) {
+				console.log("cercle highlight");
 	      var layerHover = e.target;
-
+				console.log(layerHover);
 	      layerHover.setStyle({
 	        weight: 5,
 	        color: '#666',
@@ -198,11 +213,12 @@ function popupHTML(layer) {
 	return html;
 }
 
-function getColor(d, legende, colors) {
+function getColor(d, legende) {
 	let color = null;
+	palette = getPalette();
 	$.each(legende, function (index, value) {
 		if (d <= parseFloat(value)) {
-			color = colors[index - 1];
+			color = palette[index - 1];
 			return false;
 		}
 	});
@@ -220,17 +236,27 @@ function style(feature) {
 		};
 	}
 
+function getPalette() {
+	let couleur = $("#couleurPoly").val();
+	const palette =
+	{
+		"red" : ['#FED976', '#FD8D3C', '#E31A1C','#800026'],
+		"blue" : ['#95F4FFff', '#6FA8FCff', '#4A5DF8ff','#2411F5ff'],
+		"green" : ['#027800ff', '#065E00ff', '#0B4501ff','#0F2B01ff']
+ 	}
+	return palette[couleur];
+}
+
 //légende
-function drawLegend(map, legende, colors){
+function drawLegend(map, legende){
+	palette = getPalette();
   legend = L.control({position: 'bottomright'});
 
   	legend.onAdd = function (map) {
-			console.log(colors);
   		var div = L.DomUtil.create('div', 'info legend');
-
-  		for (var i = 0; i < colors.length; i++) {
+  		for (var i = 0; i < palette.length; i++) {
   			div.innerHTML +=
-  				'<i style="background:' + colors[i] + '"></i> ' +
+  				'<i style="background:' + palette[i] + '"></i> ' +
   				legende[i] + " - " + legende[i+1] + "<br>";
   		}
   		return div;

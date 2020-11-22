@@ -35,8 +35,7 @@ function quantile($data)
             round(percentile($data, 50),2),
             round(percentile($data, 75),2),
             round(max($data),2)
-        ],
-        'colors' => ['#FED976', '#FD8D3C', '#E31A1C','#800026']
+        ]
     ];
 }
 
@@ -49,8 +48,7 @@ function amplitudesEgales($data)
     $Q3 = round((($max - $Q2) / 2) + $Q2,2);
 
     return [
-        'legende' => [$min, $Q1, $Q2, $Q3, $max],
-        'colors' => ['#FED976', '#FD8D3C', '#E31A1C','#800026']
+        'legende' => [$min, $Q1, $Q2, $Q3, $max]
     ];
 }
 

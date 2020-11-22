@@ -39,19 +39,22 @@ function geojsonSql($cols, $unite, $geom = 'geom'){
         ) b ON a.code_dpt = b.dep
     ");
 }
+$resget = $_GET['annee'];
+$codeAnnee='';
+(int)$resget < 2000 ? $codeAnnee ="d" . substr($resget,2) : $codeAnnee="p" . substr($resget,2);
 
 switch($_GET['id']){
     case 1:
-        $geojson = geojsonSql("SUM(p16_pop)", "habitants", "ST_Centroid(geom)");
+        $geojson = geojsonSql("SUM(".$codeAnnee."_pop)", "habitants", "ST_Centroid(geom)");
         break;
     case 2:
-        $geojson = geojsonSql("ROUND(SUM(p16_pop)/SUM(superf),2)", "habitants/km²");
+        $geojson = geojsonSql("ROUND(SUM(".$codeAnnee."_pop)/SUM(superf),2)", "habitants/km²");
         break;
     case 3:
-        $geojson = geojsonSql("ROUND(SUM(p16_rsecocc),0)","résidences secondaires");
+        $geojson = geojsonSql("ROUND(SUM(".$codeAnnee."_rsecocc),0)","résidences secondaires");
         break;
     case 4:
-        $geojson = geojsonSql("ROUND(SUM(p16_logvac),0)","logements vacants", "ST_Centroid(geom)");
+        $geojson = geojsonSql("ROUND(SUM(".$codeAnnee."_logvac),0)","logements vacants", "ST_Centroid(geom)");
         break;
 }
 
