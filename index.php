@@ -25,9 +25,9 @@
             <h3 class="text-center m-3">Indicateurs</h3>
             <h4 class="m-2">Aplats</h4>
             <ul class="list-group p-3">
-              <a class="list-group-item indicateur" data-id="2" data-type="aplat" href="#">Densité de la population (2016)</a>
-              <a class="list-group-item indicateur" data-id="3" data-type="aplat" href="#">Résidences secondaires (2016)</a>
-              <select name="anneePopMuni" data-id="1" class="col-4">
+              <a class="list-group-item indicateur" data-id="2" data-titre = "Densité de la population" data-type="aplat" href="#">Densité de la population (2016)</a>
+              <a class="list-group-item indicateur" data-id="3" data-titre = "Nombre de résidences secondaires" data-type="aplat" href="#">Résidences secondaires (2016)</a>
+              <select name="anneePopMuni" class="col-4">
                 <option value="" selected>Année</option>
                 <option value="d68">1968</option>
                 <option value="d75">1975</option>
@@ -42,7 +42,8 @@
 
             <h4 class="m-2">Cercles proportionnels</h4>
             <ul class="list-group p-3">
-                <a class="list-group-item indicateur" data-id="1" data-type="cercle" data-radius="50000" href="#">Population municipale (2016)</a>
+                <a class="list-group-item indicateur" data-id="1" data-titre="Population municipale" data-type="cercle" data-radius="50000" href="#">Population municipale (2016)</a>
+                <a class="list-group-item indicateur" data-id="4" data-titre="Logements vacants" data-type="cercle" data-radius="50000" href="#">Logements vacants (2016)</a>
             </ul>
 
             <div class="form-group">

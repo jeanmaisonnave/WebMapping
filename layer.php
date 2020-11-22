@@ -43,13 +43,16 @@ function geojsonSql($cols, $unite, $geom = 'geom'){
 switch($_GET['id']){
     case 1:
         $geojson = geojsonSql("SUM(p16_pop)", "habitants", "ST_Centroid(geom)");
-    break;
+        break;
     case 2:
         $geojson = geojsonSql("ROUND(SUM(p16_pop)/SUM(superf),2)", "habitants/km²");
-    break;
+        break;
     case 3:
-        $geojson = geojsonSql("SUM(p16_rsecocc)","résidences secondaires");
-    break;
+        $geojson = geojsonSql("ROUND(SUM(p16_rsecocc),0)","résidences secondaires");
+        break;
+    case 4:
+        $geojson = geojsonSql("ROUND(SUM(p16_logvac),0)","logements vacants", "ST_Centroid(geom)");
+        break;
 }
 
 echo $geojson['0']['geojson'];

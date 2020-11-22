@@ -15,6 +15,7 @@ L.control.scale().addTo(map);
 $(".indicateur").click(function(){
 let type = $(this).data('type');
 let id = $(this).data('id');
+let titre = $(this).data('titre');
 let discretisation = $("select[name='discretisation']").val();
 
 	$.ajax({
@@ -25,14 +26,15 @@ let discretisation = $("select[name='discretisation']").val();
 		dataType: 'json',
 		success: function (geojson) {
 			if(layer){
+				if (info){
+	        info.remove();
+	      }
+				if (legend){
+	        legend.remove();
+	      }
 				map.removeLayer(layer);
 			}
-      if (info){
-        info.remove();
-      }
-      if (legend){
-        legend.remove();
-      }
+
       if (type === 'aplat') {
 				$.ajax({
 					url: 'discretisation.php',
@@ -43,18 +45,18 @@ let discretisation = $("select[name='discretisation']").val();
 					dataType: 'json',
 					success: function (data) {
 						console.log(data);
-          drawAplat(geojson, data.legende, data.colors);
+          drawAplat(geojson, data.legende, data.colors, titre);
         }
 				})
 			} else {
-				drawCercle(geojson);
+				drawCercle(geojson, id, titre);
 			}
 		}
 	})
 });
 
 //dessin Applat
-function drawAplat(geojson, legende, colors) {
+function drawAplat(geojson, legende, colors, titre) {
 	layer = L.geoJSON(geojson, {
 		style: function (feature) {
 			let fillColor = getColor(feature.properties.data, legende, colors);
@@ -79,8 +81,8 @@ function drawAplat(geojson, legende, colors) {
   };
 
   info.update = function (props) {
-    this._div.innerHTML = '<h4>Densité de la population</h4>' +  (props ?
-      '<b>' + props.nom_dpt + '</b><br />' + props.data + ' hab/km<sup>2</sup>'
+    this._div.innerHTML = '<h4>'+ titre +'</h4>' +  (props ?
+      '<b>' + props.nom_dpt + '</b><br />' + props.data + ' ' + props.unite
       : '<p>Survolez un département</p>');
   };
 
@@ -119,16 +121,69 @@ function drawAplat(geojson, legende, colors) {
 }
 
 //dessin cercle
-function drawCercle(geojson){
+function drawCercle(geojson, id, titre){
+	let coef = null;
+	switch (id){
+		case 1:
+			coef = 0.02;
+			break;
+		case 4:
+			coef = 0.5;
+			break;
+	}
 	layer = L.geoJSON(geojson, {
       pointToLayer: (feature, latlng) => {
         console.log(feature);
         if (feature) {
-          return new L.Circle(latlng, {radius: feature.properties.data*0.02});
+          return new L.Circle(latlng, {radius: feature.properties.data*coef});
         }
       }
     })
       .bindPopup(popupHTML).addTo(map);
+
+		info.onAdd = function (map) {
+	    this._div = L.DomUtil.create('div', 'info');
+	    this.update();
+	    return this._div;
+	  };
+
+	  info.update = function (props) {
+	    this._div.innerHTML = '<h4>'+ titre +'</h4>' +  (props ?
+	      '<b>' + props.nom_dpt + '</b><br />' + props.data + ' ' + props.unite
+	      : '<p>Survolez un département</p>');
+	  };
+
+	  info.addTo(map);
+
+	  function highlightFeature(e) {
+	      var layerHover = e.target;
+
+	      layerHover.setStyle({
+	        weight: 5,
+	        color: '#666',
+	        dashArray: '',
+	        fillOpacity: 0.7
+	      });
+
+	      if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+	        layerHover.bringToFront();
+	      }
+
+	      info.update(layerHover.feature.properties);
+	    }
+
+	  function resetHighlight(e) {
+	      layer.resetStyle(e.target);
+	      info.update();
+	    }
+
+
+	    function onEachFeature(feature, layerHover) {
+	      layerHover.on({
+	        mouseover: highlightFeature,
+	        mouseout: resetHighlight
+	      });
+	    }
 }
 
 
