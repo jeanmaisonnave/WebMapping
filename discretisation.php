@@ -66,9 +66,10 @@ function discretisation($cols, $algo = 'quantile')
 switch ($_GET['id']) {
     case 2:
         $data = discretisation("ROUND(SUM(p16_pop)/SUM(superf), 2)", $_GET['discretisation']);
+    break;
     case 3:
-        $data = discretisation("SUM(p16_rsecocc)", $_GET['discretisation']);
-        break;
+    $data = discretisation("SUM(p16_rsecocc)", $_GET['discretisation']);
+    break;
 }
 
 echo json_encode($data);

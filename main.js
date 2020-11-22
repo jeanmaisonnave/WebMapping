@@ -51,9 +51,9 @@ let discretisation = $("select[name='discretisation']").val();
 			}
 		}
 	})
-
 });
 
+//dessin Applat
 function drawAplat(geojson, legende, colors) {
 	layer = L.geoJSON(geojson, {
 		style: function (feature) {
@@ -118,6 +118,7 @@ function drawAplat(geojson, legende, colors) {
     drawLegend(map, legende, colors);
 }
 
+//dessin cercle
 function drawCercle(geojson){
 	layer = L.geoJSON(geojson, {
       pointToLayer: (feature, latlng) => {
@@ -130,6 +131,8 @@ function drawCercle(geojson){
       .bindPopup(popupHTML).addTo(map);
 }
 
+
+//popup
 function popupHTML(layer) {
 	let html = '<table class="table table-striped m-0">'
 		+ '<tr><th>Nom</th><td>' + layer.feature.properties.nom_dpt + '</td></tr>'
@@ -162,6 +165,7 @@ function style(feature) {
 		};
 	}
 
+//légende
 function drawLegend(map, legende, colors){
   legend = L.control({position: 'bottomright'});
 
@@ -176,6 +180,5 @@ function drawLegend(map, legende, colors){
   		}
   		return div;
   	};
-
   	legend.addTo(map);
 }
